@@ -46,13 +46,23 @@ dat_stages <- dat_stages %>%
 
 # assign guild ------------------------------------------------------------
 
+# assing taxon name
+for (i in 1:length(dat_stages)) {
+  dat_stages[[i]]$taxon <-  names(dat_stages[i])
+}
+
+
 # merge and assign
 dat_guild <- dat_stages %>% 
   bind_rows() %>% 
   mutate(guild = case_when(
-    collection_no %in% (bind_rows(dat_stages[1:14]) %>% pull(collection_no)) ~ "demersal", 
-    collection_no %in% (bind_rows(dat_stages[15:18]) %>% pull(collection_no)) ~ "plankton",
-    collection_no %in% (bind_rows(dat_stages[19:25]) %>% pull(collection_no)) ~ "nekton"
+    taxon %in% c("Ascocerida", "Discosorida", "Oncocerida", "Ellesmerocerida", 
+                 "Plectronocerida", "Protactinocerida", "Yanhecerida", "Actinocerida",
+                 "Endocerida", "Intejocerida", "Radiodonta", "Eurypterida", "Cephalochordata", 
+                 "Agnatha") ~ "demersal", 
+    taxon %in% c("Orthocerida", "Dacryoconarida", "Homoctenida", "Graptoloidea") ~ "plankton",
+    taxon %in% c("Ammonoidea", "Nautilida", "Tarphycerida", "Acanthodii", "Chondrichthyes", 
+                 "Osteichthyes", "Placodermi") ~ "nekton"
   )) %>% 
   rename(stg = early_bin) %>% 
   # get mid of stages

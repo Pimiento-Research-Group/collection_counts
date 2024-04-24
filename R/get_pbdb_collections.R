@@ -43,7 +43,9 @@ url_list <- get_pbdb_url(tax_names) %>%
 # download data from the PBDB using the urls accessing the API
 pbdb_data_raw <- map(url_list, ~read_tsv(.x, 
                                          show_col_types = FALSE),
-                     .progress = TRUE)
+                     .progress = TRUE) %>% 
+  set_names(tax_names)
+
 
 # save download
 pbdb_data_raw %>% 
