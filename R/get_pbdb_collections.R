@@ -50,3 +50,5 @@ pbdb_data_raw %>%
   write_rds(here("data",
                  "pbdb_data_raw.rds"),
             compress = "gz")
+
+
